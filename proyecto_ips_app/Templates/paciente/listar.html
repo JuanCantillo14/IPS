@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Listar pacientes
+{% endblock %}
+
+{% block content %}
+
+    <h1>Lista pacientes</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Direccion</th>
+                <th>EPS</th>
+                <th>Tipo de Regimen</th>
+                <th>Imagen</th>
+                <th>Ocupacion</th>
+                <th>Tipo paciente</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pacientes %}
+            {% for paciente in pacientes %}
+            <tr>
+                <td>{{ paciente.tipo_doc }} {{ paciente.documento }}</td>
+                <td>{{ paciente.first_name }}</td>
+                <td>{{ paciente.last_name }}</td>
+                <td>{{ paciente.email  }}</td>
+                <td>{{ paciente.fecha_nacimiento }}</td>
+                <td>{{ paciente.telefono }}</td>
+                <td>{{ paciente.ciudad }}</td>
+                <td>{{ paciente.direccion }}</td>
+                <td>{{ paciente.eps }}</td>
+                <td>{{ paciente.tipo_regimen }}</td>
+                <td>
+                    {% if medico.imagen %}
+                    <img src="{{ paciente.imagen.url }}" alt="Imagen {{ paciente.first_name }}" width="150">
+                    {% else %}
+                    <img src="{% static 'img/default_user.png' %}" alt="Imagen del paciente" width="150"> 
+                    {% endif %}
+                </td>
+                <td>{{ paciente.ocupacion }}</td>
+                <td>{{ paciente.tipo_paciente }}</td>
+                <td>
+                    <a href="{% url 'detallar_paciente' paciente.id %}">Información Completa</a>
+                    <a href="{% url 'eliminar_paciente' paciente.id %}" onclick="return confirm('¿Realmente desea eliminar este médico?')">Eliminar</a>
+                </td>             
+            </tr>
+            {% endfor %}
+            {% else %}
+                <p>No hay pacientes para mostrar</p>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

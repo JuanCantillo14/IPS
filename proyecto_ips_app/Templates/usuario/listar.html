@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Listar Usuarios
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo Documento</th>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Img</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if usuarios %}
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.tipo_doc }}</td>
+                    <td>{{ usuario.documento }}</td>
+                    <td>{{ usuario.first_name }}</td>
+                    <td>{{ usuario.last_name }}</td>
+                    <td>
+                        {% if usuario.imagen %}
+                            <img src="{{ usuario.imagen.url }}" alt="Imagen {{ usuario.first_name }}" width="150">
+                        {% else %}
+                            <img src="{% static 'img/default_user.png' %}" alt="Imagen del usuario" width="150"> 
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar_usuario' usuario.id %}" onclick="return confirm('¿Realmente desea eliminar este usuario?')">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+            <p>No hay usuarios registrados en el sistema</p>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

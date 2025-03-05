@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Actualizar Usuario
+{% endblock %}
+
+{% block content %}
+
+    <h1>Actualizar Usuario</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+        <button type="submit">Actualizar usuario</button>
+    </form>
+{% endblock %}

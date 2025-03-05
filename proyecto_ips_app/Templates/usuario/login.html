@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Inicio de sesión
+{% endblock %}
+
+{% block content %}
+
+<h3>Inicio de sesión</h3>
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <label for="">Username</label>
+    <input type="text" name="username" required>
+
+    <label for="">Contraseña</label>
+    <input type="password" name="password" required>
+
+    <p>{{ mensaje_error }}<p>
+
+    <button>Iniciar sesión</button>
+</form>
+
+{% endblock %}

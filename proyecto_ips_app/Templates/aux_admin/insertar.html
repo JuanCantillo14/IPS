@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Crear Auxiliar Administrativo
+{% endblock %}
+
+{% block content %}
+
+    <h1>Crear Auxiliar Administrativo</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+    <button type="submit">Guardar Auxiliar Administrativo</button>
+    
+{% endblock %}     

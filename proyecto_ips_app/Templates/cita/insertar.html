@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Crear cita médica
+{% endblock %}
+
+{% block content %}
+
+    <h1>Crear Cita Médica</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+    <button>Guardar cita médica</button>
+    
+{% endblock %}     

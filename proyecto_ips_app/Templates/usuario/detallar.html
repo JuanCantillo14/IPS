@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Detalle del Usuario
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo Documento</th>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>{{ request.user.id }}</td>
+                    <td>{{ request.user.tipo_doc }}</td>
+                    <td>{{ request.user.documento }}</td>
+                    <td>{{ request.user.first_name }}</td>
+                    <td>{{ request.user.last_name }}</td>
+                    <td>{{ request.user.email }}</td>
+                    <td>{{ request.user.ciudad }}</td>
+                    <td>{{ request.user.direccion }}</td>
+                    <td>{{ request.user.telefono }}</td>
+                    <td>
+                        {% if request.user.imagen %}
+                            <img src="{{ request.user.imagen.url }}" alt="Imagen {{ request.user.first_name }}" width="150">
+                        {% else %}
+                        <img src="{% static 'img/default_user.png' %}" alt="Imagen del usuario" width="150"> 
+                        {% endif %}                                
+                    </td>
+                    <td>
+                        <a href="{% url 'actualizar_usuario' %}">Actualizar mis datos</a>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+{% endblock %}

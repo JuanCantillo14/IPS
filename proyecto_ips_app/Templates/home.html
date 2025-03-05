@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Página principal
+{% endblock %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+</head>
+
+    <section class="menu_principal">
+        <video src="{% static 'img/6130551-hd_1920_1080_30fps.mp4' %}" autoplay="true" muted="true" loop="true"></video>
+        <h1>Bienvenido a INFINITY</h1>
+        <p>Aliados para proteger la salud de nuestros usuarios</p>
+        <h4>OPCIONES A UN CLIC</h4>
+        <p>Realiza fácilmente tus procesos con EPS SURA. ¡Conoce aquí las soluciones virtuales que tenemos especialmente para ti!
+        </p>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Registrar usuario general del sistema
+{% endblock %}
+
+{% block content %}
+
+    <h1>Crear usuario general</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+        <button type="submit">Registrar usuario</button>
+    </form>
+{% endblock %}

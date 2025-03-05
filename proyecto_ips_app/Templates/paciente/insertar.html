@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Crear Paciente
+{% endblock %}
+
+{% block content %}
+
+    <h1>Crear Paciente</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ formulario.as_p }}
+    <button type="submit">Guardar Paciente</button>
+    
+{% endblock %}     

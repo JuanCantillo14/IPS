@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Detalle medicos
+{% endblock %}
+
+{% block content %}
+
+    <h1>Listar Medicos</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tipo Documento</th>
+                <th>Usuario/Documento</th>
+                <th>Tarjeta Profesional</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Genero</th>
+                <th>Tipo de Sangre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Direccion</th>
+                <th>Eps</th>
+                <th>Tipo de Poblacion</th>
+                <th>Estado Civil</th>
+                <th>Tipo de Regimen</th>
+                <th>Estrato Social</th>
+                <th>Imagen</th>
+                <th>Turno</th>
+                <th>Cargo</th>
+                <th>Especializacion</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ medico.id }}</td>
+                <td>{{ medico.tipo_doc }}</td>
+                <td>{{ medico.documento }}</td> 
+                <td>{{ medico.tarjeta_prof }}</td>
+                <td>{{ medico.first_name }}</td>
+                <td>{{ medico.last_name }}</td>
+                <td>{{ medico.email  }}</td>
+                <td>{{ medico.genero }}</td>
+                <td>{{ medico.tipo_sangre }}</td>
+                <td>{{ medico.fecha_nacimiento }}</td>
+                <td>{{ medico.telefono }}</td>
+                <td>{{ medico.ciudad }}</td>
+                <td>{{ medico.direccion }}</td>
+                <td>{{ medico.eps }}</td>
+                <td>{{ medico.tipo_poblacion }}</td>
+                <td>{{ medico.estado_civil }}</td>
+                <td>{{ medico.tipo_regimen }}</td>
+                <td>{{ medico.estrato_civil }}</td>
+                <td>
+                    {% if medico.imagen %}
+                        <img src="{{ medico.imagen.url }}" alt="Imagen {{ medico.first_name }}" width="150">
+                    {% else %}
+                        <img src="{% static 'img/default_user.png' %}" alt="Imagen del medico" width="150"> 
+                    {% endif %}
+                </td>
+                <td>{{ medico.turno }}</td>
+                <td>{{ medico.cargo }}</td>
+                <td>{{ medico.especializacion }}</td>
+                <td>
+                    <a href="{% url 'actualizar_medico' medico.id %}">Actualizar</a>
+                    <a href="{% url 'eliminar_medico' medico.id %}" onclick="return confirm('¿Realmente desea eliminar este médico?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

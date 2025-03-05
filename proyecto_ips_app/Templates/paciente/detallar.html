@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Detalle pacientes
+{% endblock %}
+
+{% block content %}
+
+    <h1>Lista pacientes</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tipo Documento</th>
+                <th>Usuario/Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Genero</th>
+                <th>Tipo de Sangre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Direccion</th>
+                <th>Eps</th>
+                <th>Tipo de Poblacion</th>
+                <th>Estado Civil</th>
+                <th>Tipo de Regimen</th>
+                <th>Estrato Social</th>
+                <th>Imagen</th>
+                <th>Ocupacion</th>
+                <th>Tipo paciente</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ paciente.id }}</td>
+                <td>{{ paciente.tipo_doc }}</td>
+                <td>{{ paciente.documento }}</td>
+                <td>{{ paciente.first_name }}</td>
+                <td>{{ paciente.last_name }}</td>
+                <td>{{ paciente.email  }}</td>
+                <td>{{ paciente.genero }}</td>
+                <td>{{ paciente.tipo_sangre }}</td>
+                <td>{{ paciente.fecha_nacimiento }}</td>
+                <td>{{ paciente.telefono }}</td>
+                <td>{{ paciente.ciudad }}</td>
+                <td>{{ paciente.direccion }}</td>
+                <td>{{ paciente.eps }}</td>
+                <td>{{ paciente.tipo_poblacion }}</td>
+                <td>{{ paciente.estado_civil }}</td>
+                <td>{{ paciente.tipo_regimen }}</td>
+                <td>{{ paciente.estrato_social }}</td>
+                <td>
+                    {% if medico.imagen %}
+                        <img src="{{ medico.imagen.url }}" alt="Imagen {{ medico.first_name }}" width="150">
+                    {% else %}
+                        <img src="{% static 'img/default_user.png' %}" alt="Imagen del medico" width="150"> 
+                    {% endif %}
+                </td>
+                <td>{{ paciente.ocupacion }}</td>
+                <td>{{ paciente.tipo_paciente }}</td>
+                <td>
+                    <a href="{% url 'actualizar_paciente' paciente.id %}">Actualizar</a>
+                    <a href="{% url 'eliminar_paciente' paciente.id %}" onclick="return confirm('¿Realmente desea eliminar este paciente?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

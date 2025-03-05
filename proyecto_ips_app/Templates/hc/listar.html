@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Listar Historia Clinica
+{% endblock %}
+
+{% block content %}
+
+    <h1>Listar Historia Clinica</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Paciente</th>
+                <th>Medico</th>
+                <th>Codigo Remision</th>
+                <th>Fecha Consulta</th>
+                <th>Motivo Consulta</th>
+                <th>Nombre Acompañante</th>
+                <th>Parentesco Acompañante</th>
+                <th>Diagostico</th>
+                <th>Formula Medica</th>
+                <th>Signos Vitales</th>
+                <th>Examen Fisico</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if citas %}
+            {% for cita in citas %}
+            <tr>
+                <td>{{ cita.paciente }}</td>
+                <td>{{ cita.medico }}</td>
+                <td>{{ cita.codigo_remision }}</td>
+                <td>{{ cita.fecha_consulta }}</td>
+                <td>{{ cita.motivo_consulta  }}</td>
+                <td>{{ cita.nombre_acompañante }}</td>
+                <td>{{ cita.parentesco_acompañante }}</td>
+                <td>{{ cita.diagnostico }}</td>
+                <td>{{ cita.form_medica }}</td>
+                <td>{{ cita.signos_vitales }}</td>
+                <td>{{ cita.exm_fisico }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+                <p>No hay citas medicas para mostrar</p>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Codigo Antecedentes</th>
+                <th>Patologicos</th>
+                <th>Quirurgicos</th>
+                <th>Alergicos</th>
+                <th>Ginecologicos</th>
+                <th>Obstetricos</th>
+                <th>Farmacologicos</th>
+                <th>Familiares</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if antecedentes %}
+            {% for antecedente in antecedentes %}
+            <tr>
+                <td>{{ antecedente.cod_antecedentes }}</td>
+                <td>{{ antecedente.patologicos }}</td>
+                <td>{{ antecedente.quirurgicos }}</td>
+                <td>{{ antecedente.alergicos }}</td>
+                <td>{{ antecedente.ginecologicos  }}</td>
+                <td>{{ antecedente.obstetricos }}</td>
+                <td>{{ antecedente.farmacologicos }}</td>
+                <td>{{ antecedente.familiares }}</td>
+
+            </tr>
+            {% endfor %}
+            {% else %}
+                <p>No hay antecedentes para mostrar</p>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

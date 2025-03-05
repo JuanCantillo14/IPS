@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bienvenido/a, Infinity APP{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Bienvenido/a, {{ user.first_name }}</h1>
+            <ul>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.medico %}
+                        <li><a href="{% url 'home' %}">Principal</a></li>
+                        <li><a href="{% url 'crear_medico' %}">Registrar un médico</a></li>
+                        <li><a href="{% url 'listar_medico' %}">Lista médicos</a></li>
+                        <li><a href="{% url 'perfil_medico' %}">Ver mi perfil médico</a></li>
+                        <li><a href="{% url 'crear_cita' %}">Crear Cita</a></li>
+                        <li><a href="{% url 'listar_citas' %}">Ver Citas</a></li>
+                        <li><a href="{% url 'listar_hc' %}">Listar Historias Clínicas</a></li>
+                        <li><a href="{% url 'crear_paciente' %}">Crear Paciente</a></li>
+                        <li><a href="{% url 'listar_paciente' %}">Lista Paciente</a></li>
+
+                    {% elif request.user.aux_admin %}
+                        <li><a href="{% url 'crear_aux_admin' %}">Crear Auxiliar</a></li>
+                        <li><a href="{% url 'listar_aux_admin' %}">Lista Auxiliares</a></li>
+                        <li><a href="{% url 'perfil_medico' %}">Ver mi perfil</a></li>
+                        <li><a href="{% url 'crear_cita' %}">Crear Cita</a></li>
+                        <li><a href="{% url 'listar_citas' %}">Ver Citas</a></li>
+                        <li><a href="{% url 'listar_hc' %}">Listar Historias Clínicas</a></li>
+                        <li><a href="{% url 'crear_paciente' %}">Crear Paciente</a></li>
+                        <li><a href="{% url 'listar_paciente' %}">Lista Paciente</a></li>
+
+                    {% elif request.user.paciente %}
+                        <li><a href="{% url 'detallar_usuario' %}">Ver mi perfil</a></li>
+                    {% elif request.user.usuario %}
+                        <li><a href="{% url 'detallar_usuario' %}">Ver mi perfil</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'home' %}">Principal</a></li>
+                    <li><a href="{% url 'logout_usuario' %}"><button id="logout">Salida Segura</button></a></li>
+
+                {% else %}
+                    <h1>INFINITY</h1>
+                    <li><a href="{% url 'crear_medico' %}">Registrar un médico</a></li>
+                    <li><a href="{% url 'listar_medico' %}">Lista médicos</a></li>
+                    <li><a href="{% url 'crear_paciente' %}">Crear Paciente</a></li>
+                    <li><a href="{% url 'listar_paciente' %}">Lista Paciente</a></li>
+                    <li><a href="{% url 'home' %}">Principal</a></li>
+                    <h3>Usuario invitado. Por favor, <a href="{% url 'login_usuario' %}">Inicia sesión</a></h3>
+                    <li><a href="{% url 'registrar_usuario' %}">Registrarme</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer>
+        <p>2024 - INFINITY - Derechos reservados</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Perfil médico
+{% endblock %}
+
+{% block content %}
+    
+    {% if tipo_usuario %}
+        <p>Bienvenido Profesional - {{ user.first_name}} {{ user.last_name }}</p>
+        <p>{{ tipo_usuario }}</p>
+    {% endif %}
+
+{% endblock %}

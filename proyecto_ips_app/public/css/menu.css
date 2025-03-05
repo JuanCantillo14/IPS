@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.menu_principal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* flex-direction: row; */
+    height: 100%; 
+    width: 100%; 
+    color: antiquewhite;
+    flex-flow: column wrap;
+    gap: 50px;
+    
+}
+video {
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh; 
+    object-fit: cover; 
+    z-index: -1; 
+}
+
+.logos{
+    border: 0.5px solid white;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+}
+.logos--imagen{
+    height: 290px;
+    margin: 50px 30px;
+}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Detalle Auxiliares Administrativos
+{% endblock %}
+
+{% block content %}
+
+    <h1>Lista Auxiliares Administrativos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo de Documento</th>
+                <th>Usuario/Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Genero</th>
+                <th>Tipo de Sangre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Direccion</th>
+                <th>Eps</th>
+                <th>Tipo de Poblacion</th>
+                <th>Estado Civil</th>
+                <th>Tipo de Regimen</th>
+                <th>Estrato Social</th>
+                <th>Imagen</th>
+                <th>Turno</th>
+                <th>Cargo</th>
+                <th>Departamento de Trabajo</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ aux_admin.id }}</td>
+                <td>{{ aux_admin.tipo_doc }}</td>
+                <td>{{ aux_admin.documento }}</td>
+                <td>{{ aux_admin.first_name }}</td>
+                <td>{{ aux_admin.last_name }}</td>
+                <td>{{ aux_admin.email  }}</td>
+                <td>{{ aux_admin.genero }}</td>
+                <td>{{ aux_admin.tipo_sangre }}</td>
+                <td>{{ aux_admin.fecha_nacimiento }}</td>
+                <td>{{ aux_admin.telefono }}</td>
+                <td>{{ aux_admin.ciudad }}</td>
+                <td>{{ aux_admin.direccion }}</td>
+                <td>{{ aux_admin.eps }}</td>
+                <td>{{ aux_admin.tipo_poblacion }}</td>
+                <td>{{ aux_admin.estado_civil }}</td>
+                <td>{{ aux_admin.tipo_regimen }}</td>
+                <td>{{ aux_admin.estrato_civil }}</td>
+                <td>{{ aux_admin.imagen }}</td>
+                <td>{{ aux_admin.turno }}</td>
+                <td>{{ aux_admin.cargo }}</td>
+                <td>{{ aux_admin.departamento_trabajo }}</td>
+                <td>
+                    <a href="{% url 'actualizar_aux_admin' aux_admin.id %}">Actualizar</a>
+                    <a href="{% url 'eliminar_aux_admin' aux_admin.id %}" onclick="return confirm('¿Realmente desea eliminar este médico?')">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

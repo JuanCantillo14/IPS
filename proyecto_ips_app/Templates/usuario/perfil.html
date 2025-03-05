@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Perfil del usuario sin rol en el sistema
+{% endblock %}
+
+{% block content %}
+    
+    {% if tipo_usuario %}
+    <p>Bienvenido(a) - {{ user.last_name }} {{ user.first_name }}</p>
+        <p>{{ tipo_usuario }}</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,394 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One+SC&family=Lexend:wght@100..900&family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 100px; 
+    padding-bottom: 100px;
+    background-color: #69818D;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+header nav{
+    position: fixed;
+    display: flex;
+    background-color: #132E35;
+    border-bottom: 2px solid whitesmoke;
+    justify-content:space-between;
+    align-items: center;
+    flex-flow: row nowrap;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    & ul{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-flow: row wrap;
+        & li{
+            margin: 0 1.5vi;
+            list-style-type: none;
+            padding: 18px 0;
+            & button{
+                background-color: #a5abaf;
+                border: #3f3c3a;
+                height: 30px;
+                width: 80px;
+                border-radius: 15%;
+                & a{
+                    color:#69818D
+                }
+            }
+        }
+        & a{
+            text-decoration: none;
+            color: #e8f1fc;
+            font-family: Bebas Neue;
+            font-size: 15px;
+            padding: 18px 0;
+            }
+        } 
+    
+    & h1{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 3vi;
+        color: #e8f1fc;
+        font-family: Oswald;
+    }
+    & h3{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 3vi;
+        color: #e8f1fc;
+        font-family: Oswald;
+        margin: 30px 50px;
+        
+        & a{
+            color: #e8d8c9;
+        }
+    }
+
+}
+#logout{
+    width: 180px;
+    height: 40px;
+    font-family: Bebas Neue;
+}
+    
+
+header li a:hover{
+    text-decoration: 2px underline rgb(255, 255, 224);
+    text-underline-offset: 10px;
+    transition: 0.8s;
+    color: #e8d8c9;
+}
+header h1, header h2, header h3{
+    color: #FBE4D8;
+}
+
+/* form{
+    align-items: center;
+    justify-content: center;
+} */
+
+main {
+    margin-top: 1000px;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+main h1, main h2, main h3 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-family: 'Oswald', sans-serif;
+    color: #0D1F23;
+    
+}
+h1{
+    margin-left: 50px;
+    text-align: center;
+
+}
+main p {
+    margin-bottom: 1.5rem;
+    color: #555555;
+}
+
+/* Pie de página */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    background-color: #0D1F23; 
+    color: whitesmoke;
+    font-family: Oswald;
+    text-align: center;
+    /* padding: 1rem; */
+    font-size: 1rem;
+    z-index: 1000; 
+    height: 60px;
+}   
+
+
+footer p {
+    margin-bottom: 0.5rem;
+}
+
+footer a {
+    color: #132E35;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #2ecc71; /* Resaltado de enlaces en el pie de página */
+}
+
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 2rem;
+    background-color: #AFB3B7;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    border: 1px solid black;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form h2 {
+    color: #ffffff;
+    background: linear-gradient(90deg, #4c9aff, #6a85b6);
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+form > * {
+    margin-bottom: 1.2rem;
+}
+
+input, select, textarea {
+    border: 1px solid #d0d7de;
+    padding: 0.8rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    background-color: #F3FAFB; /* Azul claro */
+    border: 1px solid #A4D4D9; /* Borde azul pastel */
+    border-radius: 4px;
+    color: #333333;
+}
+input:hover, select:hover, textarea:hover,
+input:focus, select:focus, textarea:focus {
+    background-color: #F9FEFF;
+    border-color: #47A3DA;
+    box-shadow: 0 0 4px rgba(71, 163, 218, 0.5);
+}
+
+button {
+    background-color: #4c9aff;
+    color: #ffffff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3578e5;
+}
+
+@media (max-width: 768px) {
+    form {
+        padding: 1rem;
+    }
+
+    input, select, textarea {
+        padding: 0.6rem;
+    }
+}
+
+label {
+    display: block;
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    color: #333333;
+    background-color: white ;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #0056b3;
+    outline: none;
+    background-color: #ffffff;
+}
+
+textarea {
+    resize: vertical; /* Permite al usuario ajustar el tamaño verticalmente */
+    min-height: 20px;
+}
+
+/* Botón de envío */
+button[type="submit"] {
+    width: 100%;
+    font-size: 1rem;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: #2D4A53;
+    padding: 0.8rem 1.5rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #0D1F23;
+}
+
+button[type="submit"]:active {
+    background-color: #69818D;
+}
+
+/* Mensaje de error y éxito */
+.error-message {
+    color: #d9534f;
+    font-size: 0.9rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
+
+.success-message {
+    color: #5cb85c;
+    font-size: 0.9rem;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
+
+/* Contenedor de la tabla */
+.table-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow-x: auto; /* Permite desplazamiento horizontal en pantallas pequeñas */
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    color: #333333;
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+th {
+    background-color: #132E35; /* Color corporativo */
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f4f6f8;
+}
+
+tr{
+    background-color: #e8f1fc; 
+}
+tr:hover {
+    background-color: #e8f1fc; /* Color de resaltado al pasar el cursor */
+}
+
+td {
+    font-weight: 400;
+}
+
+/* Estilo para celdas de encabezado */
+th:first-child,
+td:first-child {
+    border-left: none;
+}
+
+th:last-child,
+td:last-child {
+    border-right: none;
+}
+
+/* Botones dentro de la tabla */
+table .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+table .btn-edit {
+    background-color: #5bc0de;
+}
+
+table .btn-edit:hover {
+    background-color: #31b0d5;
+}
+
+table .btn-delete {
+    background-color: #d9534f;
+}
+
+table .btn-delete:hover {
+    background-color: #c9302c;
+}
+
+
