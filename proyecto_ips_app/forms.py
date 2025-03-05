@@ -27,6 +27,7 @@ class UsuarioFormulario(forms.ModelForm):
             'imagen',
             'password', 
         ]
+        
         widgets= {
             'password': forms.PasswordInput(),
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date'}),

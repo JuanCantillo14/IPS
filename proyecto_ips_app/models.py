@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator,MinLengthValidator, MaxLengthValidator,EmailValidator,FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 import datetime
 import os
@@ -18,12 +19,33 @@ def validar_telefono(value):
         raise ValidationError(_("%(value)s no es un número telefónico válido"),
             params={"value": value},
         )
-        
+def validar_nombre(value):
+    value=RegexValidator
+    value(
+    regex=r'^[A-Za-z\s]+$',
+    message="El nombre solo debe contener letras y espacios"
+    )
+    
+    if len(value)>MinLengthValidator:
+        raise ValidationError(_("El campo debe tener %(MingLenghtValidator)s"),
+                                params={"MinLenghtValidator":MinLengthValidator})
+
+validar_documento=RegexValidator(
+    regex=r'^\d{6,10}',
+    message="El número de documento no es válido"
+)
+
+validar_password=RegexValidator(
+    regex=r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$',
+    message="La contraseña debe tener mínimo 4 caracteres, una mayúscula, un número y un carácter especial"
+)
+
+    
 class Usuario(AbstractUser):
-    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres')
-    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos')
-    email=models.EmailField(max_length=100,null=False,unique=True,verbose_name='Correo electrónico')
-    documento=models.CharField(max_length=20,unique=True, null=False,verbose_name='Número de documento')
+    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres',validators=[validar_nombre,MinLengthValidator(3)])
+    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos',validators=[validar_nombre,MinLengthValidator(5)])
+    email=models.EmailField(max_length=100,null=False,unique=True,verbose_name='Correo electrónico',validators=[EmailValidator(message="Correo electrónico inválido")])
+    documento=models.IntegerField(unique=True, null=False,verbose_name='Número de documento',validators=[validar_documento])
     TIPO_DOC=[('CC','Cedula de Ciudadania'),('CE','Cedula de Extranjeria'),('TI','Tarjeta de Identidad'),('RC','Registro Civil')]
     tipo_doc=models.CharField(choices=TIPO_DOC,max_length=2, verbose_name='Tipo de documento')
     GENERO=[('M','Masculino'),('F','Femenino'),('I','Indefinido')]
@@ -32,7 +54,7 @@ class Usuario(AbstractUser):
     tipo_sangre=models.CharField(max_length=3,null=False,choices=TIPO_SANGRE, verbose_name='Tipo de sangre')
     fecha_nacimiento=models.DateField(null=False, verbose_name='Fecha de nacimiento')
     telefono=models.CharField(max_length=10,null=False, verbose_name='Número de telefono', validators=[validar_telefono])
-    ciudad=models.CharField(max_length=100, null=False,verbose_name='Ciudad de residencia')
+    ciudad=models.CharField(max_length=100, null=False,verbose_name='Ciudad de residencia',validators=[validar_nombre])
     direccion=models.CharField(max_length=100,null=False, verbose_name='Dirección de residencia')
     eps=models.CharField(max_length=100,blank=True, verbose_name='EPS')
     TIPO_POBLACION=[('N/A','Ninguna'),('PIV','Poblacion Infantil vulnerable'),('AMV','Adulto mayor vulnerable'),('M','Migrante'),('PD','Población desmovilizada'),('CI','Comunidad indigena'),('VFP','Veterano fuerza pública')]
@@ -43,8 +65,8 @@ class Usuario(AbstractUser):
     tipo_regimen=models.CharField(max_length=20,null=False,choices=TIPO_REGIMEN, verbose_name='Tipo de regimen')
     ESTRATO_SOCIAL=[('E1','Estrato 1'),('E2','Estrato 2'),('E3','Estrato 3'),('E4','Estrato 4'),('E5','Estrato 5'),('E6','Estrato 6')]
     estrato_social=models.CharField(max_length=20,null=False, choices=ESTRATO_SOCIAL, verbose_name='Estrato social')
-    imagen=models.ImageField(upload_to=user_directory_path,blank=True, null=True, verbose_name='Imagen de Usuario') #IMAGEEEEEEEEEEEEN
-    password=models.CharField(max_length=100, null=False, verbose_name='Contraseña')
+    imagen=models.ImageField(upload_to=user_directory_path,blank=True, null=True, verbose_name='Imagen de Usuario',validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png'])]) #IMAGEEEEEEEEEEEEN
+    password=models.CharField(max_length=100, null=False, verbose_name='Contraseña', validators=[validar_password])
     #arl 
     
     @property 
