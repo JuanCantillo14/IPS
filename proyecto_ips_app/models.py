@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import datetime
 import os
+from django.conf import settings
 
 # Create your models here.
 
@@ -69,14 +70,17 @@ class Usuario(AbstractUser):
     def save(self,*args,**kwards):
         if not self.username: 
             self.username=self.documento
-        if self.id:
-            usuario_antiguo=Usuario.objects.filter(id=self.id).get()
-            if usuario_antiguo and usuario_antiguo.imagen:
-                imagen_anterior=usuario_antiguo.imagen.path
-                if self.imagen!=usuario_antiguo.imagen:
+        if self.pk: # revisa si ya existe en la BD
+            try:
+                usuario_antiguo=Usuario.objects.filter(id=self.id).get()
+                if usuario_antiguo.imagen and usuario_antiguo.imagen != self.imagen:
+                    imagen_anterior = os.path.join(settings.MEDIA_ROOT, str(usuario_antiguo.imagen))
                     if os.path.exists(imagen_anterior):
                         os.remove(imagen_anterior)
-        super().save(*args,**kwards)
+            except Usuario.DoesNotExist: # si no existe el ususario no habra imaganes guardadas para eliminar 
+                pass
+        super().save(*args, **kwards)
+            
         
 class Paciente(Usuario):
     ocupacion=models.CharField(max_length=100,blank=True, verbose_name='Ocupación')

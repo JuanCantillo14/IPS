@@ -15,10 +15,11 @@
         {% endfor %}
     {% endif %}
     
-    <form method="post">
+    <form method="post" enctype="multipart/form-data"> # el archivo de imagen se subira al servidor 
         {% csrf_token %}
         {{ formulario.as_p }}
         <button type="submit">Actualizar Medico</button>
     </form>
 
 {% endblock %}
+

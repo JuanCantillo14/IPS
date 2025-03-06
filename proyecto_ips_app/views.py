@@ -325,12 +325,12 @@ def detallar_medico(request,id):
 #     return render(request, 'medico/actualizar.html', {'formulario': formulario})
 
 @login_required
-def actualizar_medico(request):
+def actualizar_medico(request, id):
     try:
-        medico = Medico.objects.get(id=request.user.id)  # Obtiene el médico autenticado
+        medico = Medico.objects.get(id=id)
     except Medico.DoesNotExist:
-        messages.error(request, "No tienes un perfil de médico registrado.")
-        return redirect('home')
+        messages.error(request, "El médico no existe.")
+        return redirect('listar_medico')
 
     if request.method == 'POST':
         formulario = MedicoFormulario(request.POST, request.FILES, instance=medico)
@@ -340,10 +340,10 @@ def actualizar_medico(request):
             nueva_password = formulario.cleaned_data.get('password')
             if nueva_password:
                 medico.set_password(nueva_password)
-                medico.save()  # Guardar antes de actualizar la sesión
-                update_session_auth_hash(request, medico)  # Mantiene la sesión activa
+                medico.save()
+                update_session_auth_hash(request, medico)  
             else:
-                medico.save()  # Guardar normalmente si la contraseña no cambia
+                medico.save()  
 
             messages.success(request, "Perfil médico actualizado exitosamente.")
             return redirect('perfil_medico')
@@ -351,6 +351,9 @@ def actualizar_medico(request):
             messages.error(request, "Hay errores en el formulario.")
     else:
         formulario = MedicoFormulario(instance=medico)
+
+    return render(request, 'medico/actualizar.html', {'formulario': formulario})
+
         
 @login_required
 def ver_perfil_medico(request):
