@@ -62,7 +62,7 @@ ROOT_URLCONF = 'proyecto_ips.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['proyecto_ips_app/Templates'],
+        'DIRS': ['proyecto_ips_app/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

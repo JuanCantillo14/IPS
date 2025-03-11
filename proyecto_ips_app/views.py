@@ -279,11 +279,11 @@ def actualizar_aux_admin(request):
 
 @login_required
 def ver_perfil_aux_admin(request):
-    aux_admin = request.user.medico  # Ver el perfil del médico
+    aux_admin = request.user.empleado.aux_admin  # Ver el perfil del aux_admin
     return render(request, 'aux_admin/detallar.html', {'aux_admin': aux_admin})
 
 def eliminar_aux_admin(request,id):
-    aux_admin=get_object_or_404(Paciente, id=id)
+    aux_admin=get_object_or_404(AuxAdmin, id=id)
     aux_admin.delete()
     return redirect('listar_aux_admin')
     
@@ -313,49 +313,44 @@ def detallar_medico(request,id):
     medicos = get_object_or_404(Medico, id=id)
     return render(request,'medico/detallar.html',{'medico':medicos})
 
-# def actualizar_medico(request, id):
-#     medico = get_object_or_404(Medico, id=id)
-#     if request.method == "POST":
-#         formulario = MedicoFormulario(request.POST, instance=medico)
-#         if formulario.is_valid():
-#             formulario.save()
-#             return redirect('listar_medico')  # Cambia por la URL adecuada
-#     else:
-#         formulario = MedicoFormulario(instance=medico)
-#     return render(request, 'medico/actualizar.html', {'formulario': formulario})
+@login_required
+def ver_perfil_medico(request):
+    medicos = request.user.empleado.medico  # Ver el perfil del médico
+    return render(request, 'medico/detallar.html', {'medico': medicos})
 
 @login_required
 def actualizar_medico(request):
+    usuario = request.user  # Usuario autenticado
+
     try:
-        medico = Medico.objects.get(id=request.user.id)  # Obtiene el médico autenticado
+        medico = Medico.objects.get(pk=usuario.pk)  # Obtener perfil de médico
     except Medico.DoesNotExist:
         messages.error(request, "No tienes un perfil de médico registrado.")
         return redirect('home')
 
     if request.method == 'POST':
-        formulario = MedicoFormulario(request.POST, request.FILES, instance=medico)
-        if formulario.is_valid():
-            medico = formulario.save(commit=False)
+        formulario_medico = MedicoFormulario(request.POST, request.FILES, instance=medico)  # Formulario de Médico
 
-            nueva_password = formulario.cleaned_data.get('password')
+        if formulario_medico.is_valid():
+            medico = formulario_medico.save(commit=False)  # No guardar aún en la BD
+
+            # Cifrado de la nueva contraseña si se proporciona
+            nueva_password = formulario_medico.cleaned_data.get('password')
             if nueva_password:
-                medico.set_password(nueva_password)
-                medico.save()  # Guardar antes de actualizar la sesión
-                update_session_auth_hash(request, medico)  # Mantiene la sesión activa
-            else:
-                medico.save()  # Guardar normalmente si la contraseña no cambia
+                medico.set_password(nueva_password)  # Cifra la contraseña correctamente
+            
+            medico.save()  # Guarda médico en BD
+            
+            update_session_auth_hash(request, request.user)  # Mantener sesión activa tras cambio de contraseña
 
             messages.success(request, "Perfil médico actualizado exitosamente.")
-            return redirect('perfil_medico')
+            return redirect('ver_perfil_medico')
         else:
             messages.error(request, "Hay errores en el formulario.")
     else:
-        formulario = MedicoFormulario(instance=medico)
+        formulario_medico = MedicoFormulario(instance=medico)
+    return render(request, 'medico/actualizar.html', {'formulario': formulario_medico})
         
-@login_required
-def ver_perfil_medico(request):
-    medico = request.user.medico  # Ver el perfil del médico
-    return render(request, 'medico/detallar.html', {'medico': medico})
 
 def eliminar_medico(request,id):
     medico=get_object_or_404(Medico, id=id)

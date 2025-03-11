@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator,MinLengthValidator, MaxLengthValidator,EmailValidator,FileExtensionValidator
+from django.core.validators import RegexValidator,MinLengthValidator, MaxLengthValidator,EmailValidator,FileExtensionValidator, MinValueValidator,MaxValueValidator
 from django.utils.translation import gettext_lazy as _
 import datetime
 import os
@@ -26,10 +26,6 @@ def validar_nombre(value):
     message="El nombre solo debe contener letras y espacios"
     )
     
-    if len(value)>MinLengthValidator:
-        raise ValidationError(_("El campo debe tener %(MingLenghtValidator)s"),
-                                params={"MinLenghtValidator":MinLengthValidator})
-
 validar_documento=RegexValidator(
     regex=r'^\d{6,10}',
     message="El número de documento no es válido"
@@ -39,31 +35,61 @@ validar_password=RegexValidator(
     regex=r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$',
     message="La contraseña debe tener mínimo 4 caracteres, una mayúscula, un número y un carácter especial"
 )
-
+mesan="Hola"
     
 class Usuario(AbstractUser):
-    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres',validators=[validar_nombre,MinLengthValidator(3)])
-    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos',validators=[validar_nombre,MinLengthValidator(5)])
+    TIPO_DOC=[('CC','Cedula de Ciudadania'),
+              ('CE','Cedula de Extranjeria'),
+              ('TI','Tarjeta de Identidad'),
+              ('RC','Registro Civil')]
+    GENERO=[('M','Masculino'),
+            ('F','Femenino'),
+            ('I','Indefinido')]
+    TIPO_SANGRE=[('A+','A+'),
+                 ('A-','A-'),
+                 ('B+','B+'),
+                 ('B-','B-'),
+                 ('AB+','AB+'),
+                 ('AB-','AB-'),
+                 ('O+','O+'),
+                 ('O-','O-')]
+    TIPO_POBLACION=[('N/A','Ninguna'),
+                    ('PIV','Poblacion Infantil vulnerable'),
+                    ('AMV','Adulto mayor vulnerable'),
+                    ('M','Migrante'),
+                    ('PD','Población desmovilizada'),
+                    ('CI','Comunidad indigena'),
+                    ('VFP','Veterano fuerza pública')]
+    ESTADO_CIVIL=[('S','Soltero/a'),
+                  ('C','Casado/a'),
+                  ('V','Viudo/a'),
+                  ('UL','Union libre'),
+                  ('D','Divorciado/a')]
+    TIPO_REGIMEN=[('C','Cotizante'),
+                  ('B','Beneficiario'),
+                  ('A','Adicional'),
+                  ('N/A','No aplica')]
+    ESTRATO_SOCIAL=[('E1','Estrato 1'),
+                    ('E2','Estrato 2'),
+                    ('E3','Estrato 3'),
+                    ('E4','Estrato 4'),
+                    ('E5','Estrato 5'),
+                    ('E6','Estrato 6')]
+    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres',validators=[validar_nombre,MinLengthValidator(3, message="El campo debe contener minimo 3 caracteres")])
+    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos',validators=[validar_nombre,MinLengthValidator(5, message="El campo debe contener minimo 5 caracteres")])
     email=models.EmailField(max_length=100,null=False,unique=True,verbose_name='Correo electrónico',validators=[EmailValidator(message="Correo electrónico inválido")])
     documento=models.IntegerField(unique=True, null=False,verbose_name='Número de documento',validators=[validar_documento])
-    TIPO_DOC=[('CC','Cedula de Ciudadania'),('CE','Cedula de Extranjeria'),('TI','Tarjeta de Identidad'),('RC','Registro Civil')]
     tipo_doc=models.CharField(choices=TIPO_DOC,max_length=2, verbose_name='Tipo de documento')
-    GENERO=[('M','Masculino'),('F','Femenino'),('I','Indefinido')]
     genero=models.CharField(max_length=1,null=False,choices=GENERO, verbose_name='Genero')
-    TIPO_SANGRE=[('A+','A+'),('A-','A-'),('B+','B+'),('B-','B-'),('AB+','AB+'),('AB-','AB-'),('O+','O+'),('O-','O-')]
     tipo_sangre=models.CharField(max_length=3,null=False,choices=TIPO_SANGRE, verbose_name='Tipo de sangre')
-    fecha_nacimiento=models.DateField(null=False, verbose_name='Fecha de nacimiento')
-    telefono=models.CharField(max_length=10,null=False, verbose_name='Número de telefono', validators=[validar_telefono])
+    fecha_nacimiento=models.DateField(null=False, verbose_name='Fecha de nacimiento',validators=[MaxValueValidator(datetime.date.today)])
+    telefono=models.CharField(max_length=10,null=False, verbose_name='Número de telefono', validators=[validar_telefono],unique=True)
     ciudad=models.CharField(max_length=100, null=False,verbose_name='Ciudad de residencia',validators=[validar_nombre])
     direccion=models.CharField(max_length=100,null=False, verbose_name='Dirección de residencia')
     eps=models.CharField(max_length=100,blank=True, verbose_name='EPS')
-    TIPO_POBLACION=[('N/A','Ninguna'),('PIV','Poblacion Infantil vulnerable'),('AMV','Adulto mayor vulnerable'),('M','Migrante'),('PD','Población desmovilizada'),('CI','Comunidad indigena'),('VFP','Veterano fuerza pública')]
     tipo_poblacion=models.CharField(max_length=100,null=False,choices=TIPO_POBLACION, verbose_name='Tipo de población')
-    ESTADO_CIVIL=[('S','Soltero/a'),('C','Casado/a'),('V','Viudo/a'),('UL','Union libre'),('D','Divorciado/a')]
     estado_civil=models.CharField(max_length=20,null=False,choices=ESTADO_CIVIL, verbose_name='Estado civil       ')
-    TIPO_REGIMEN=[('C','Cotizante'),('B','Beneficiario'),('A','Adicional'),('N/A','No aplica')]
     tipo_regimen=models.CharField(max_length=20,null=False,choices=TIPO_REGIMEN, verbose_name='Tipo de regimen')
-    ESTRATO_SOCIAL=[('E1','Estrato 1'),('E2','Estrato 2'),('E3','Estrato 3'),('E4','Estrato 4'),('E5','Estrato 5'),('E6','Estrato 6')]
     estrato_social=models.CharField(max_length=20,null=False, choices=ESTRATO_SOCIAL, verbose_name='Estrato social')
     imagen=models.ImageField(upload_to=user_directory_path,blank=True, null=True, verbose_name='Imagen de Usuario',validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png'])]) #IMAGEEEEEEEEEEEEN
     password=models.CharField(max_length=100, null=False, verbose_name='Contraseña', validators=[validar_password])
@@ -109,11 +135,13 @@ class Paciente(Usuario):
     tipo_paciente = models.CharField(max_length=10, choices=TIPO_PACIENTE, default='ESTANDAR',verbose_name='Tipo de paciente')
     
     def __str__(self):
-        return self.first_name
+        return self.first_name, self.last_name
 
     
 class Empleado(Usuario):
-    TURNO=[('6am-2pm','6:00 AM - 2:00 PM'),('2pm-10pm', '2:00 PM - 10:00 PM'),('10pm-6am','10:00 PM - 6:00 AM')]
+    TURNO=[('6am-2pm','6:00 AM - 2:00 PM'),
+           ('2pm-10pm', '2:00 PM - 10:00 PM'),
+           ('10pm-6am','10:00 PM - 6:00 AM')]
     turno=models.CharField(max_length=50,blank=True, verbose_name='Turno', choices=TURNO)
     cargo=models.CharField(max_length=100, null=False, verbose_name='Cargo')
     
