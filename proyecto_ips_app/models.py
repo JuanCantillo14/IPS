@@ -19,6 +19,7 @@ def validar_telefono(value):
         raise ValidationError(_("%(value)s no es un número telefónico válido"),
             params={"value": value},
         )
+
 def validar_nombre(value):
     value=RegexValidator
     value(
