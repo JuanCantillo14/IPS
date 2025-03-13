@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth import update_session_auth_hash
+from django.db.models import Q
 from proyecto_ips_app.models import * 
 from django.contrib import messages
 from proyecto_ips_app.forms import *
@@ -145,6 +146,19 @@ def actualizar_usuario(request):
 def listar_usuarios(request):
     usuarios = Usuario.objects.all()
     return render(request, 'usuario/listar.html', {'usuarios':usuarios})
+
+@login_required
+def listar_pacientes_filtrados(request):
+    consultaSQL = request.GET.get('consultaSQL', '').strip()  # Obtener y limpiar la consulta del usuario
+    usuarios = None  # Inicializar la variable usuarios
+
+    if consultaSQL:  # Solo buscar si hay un valor en el campo
+        usuarios = Usuario.objects.filter(first_name= consultaSQL)
+  
+        if not usuarios:
+            messages.info(request, "No se encontraron usuarios con ese nombre.")  # Mensaje si no hay resultados
+
+    return render(request, 'medico/buscar_paciente.html', {'usuarios': usuarios, 'consultaSQL': consultaSQL})
 
 def eliminar_usuario(request, usuario_id):
     usuario = get_object_or_404(Usuario, id=usuario_id)

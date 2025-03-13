@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Buscar usuarios en el sistema
+{% endblock %}
+
+{% block content %}
+
+    <h1>Buscar usuario</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form class="busqueda_" method="GET" action="{% url 'listar_pacientes_filtrados' %}"> <!--Método GET recomendado para solicitar datos del servidor-->
+        <!--GET a diferencia de POST no modifica datos en el servidor y no necesita un token-->
+        <input type="text" name="consultaSQL" value="{{ request.GET.consultaSQL }}" placeholder="Nombre del usuario a buscar:">
+        <button type="submit">Buscar usuarios</button>
+        
+        <input type="text" name="consultaSQL" value="{{ request.GET.consultaSQL }}" placeholder="Nombre del usuario a buscar:">
+        <button type="submit">Buscar usuarios</button>
+
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Documento</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Telefono</th>
+                <th>Ciudad</th>
+                <th>Direccion</th>
+                <th>EPS</th>
+                <th>Tipo de Regimen</th>
+                <th>Imagen</th>
+                <th>Ocupacion</th>
+                <th>Tipo usuario</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+                <tbody>
+                    {% if usuarios is not None %}
+                        {% if usuarios %}
+                            {% for usuario in usuarios %}
+                    <tr>
+                        <td>{{ usuario.tipo_doc }} {{ usuario.documento }}</td>
+                        <td>{{ usuario.first_name }}</td>
+                        <td>{{ usuario.last_name }}</td>
+                        <td>{{ usuario.email  }}</td>
+                        <td>{{ usuario.fecha_nacimiento }}</td>
+                        <td>{{ usuario.telefono }}</td>
+                        <td>{{ usuario.ciudad }}</td>
+                        <td>{{ usuario.direccion }}</td>
+                        <td>{{ usuario.eps }}</td>
+                        <td>{{ usuario.tipo_regimen }}</td>
+                        <td>
+                            {% if usuario.imagen %}
+                            <img src="{{ usuario.imagen.url }}" alt="Imagen {{ usuario.first_name }}" width="150">
+                            {% else %}
+                            <img src="{% static 'img/default_user.png' %}" alt="Imagen del usuario" width="150"> 
+                            {% endif %}
+                        </td>
+                        <td>{{ usuario.ocupacion }}</td>
+                        <td>{{ usuario.tipo_usuario }}</td>
+                                   
+                    </tr>
+                         {% endfor %}
+                         {% endif %}
+                    {% else %}
+                        <p>No se encontraron usuarios con ese nombre.</p>
+                    {% endif %}
+{% endblock %}

@@ -20,15 +20,15 @@ def validar_telefono(value):
             params={"value": value},
         )
 
-def validar_nombre(value):
+def validar_caracter(value):
     value=RegexValidator
     value(
     regex=r'^[A-Za-z\s]+$',
-    message="El nombre solo debe contener letras y espacios"
+    message="El campo solo debe contener letras y espacios"
     )
     
 validar_documento=RegexValidator(
-    regex=r'^\d{6,10}',
+    regex=r'^\d{4,10}',
     message="El número de documento no es válido"
 )
 
@@ -36,7 +36,6 @@ validar_password=RegexValidator(
     regex=r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$',
     message="La contraseña debe tener mínimo 4 caracteres, una mayúscula, un número y un carácter especial"
 )
-mesan="Hola"
     
 class Usuario(AbstractUser):
     TIPO_DOC=[('CC','Cedula de Ciudadania'),
@@ -76,8 +75,8 @@ class Usuario(AbstractUser):
                     ('E4','Estrato 4'),
                     ('E5','Estrato 5'),
                     ('E6','Estrato 6')]
-    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres',validators=[validar_nombre,MinLengthValidator(3, message="El campo debe contener minimo 3 caracteres")])
-    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos',validators=[validar_nombre,MinLengthValidator(5, message="El campo debe contener minimo 5 caracteres")])
+    first_name=models.CharField(max_length=100,null=False, verbose_name='Nombres',validators=[validar_caracter,MinLengthValidator(3, message="El campo debe contener minimo 3 caracteres")])
+    last_name=models.CharField(max_length=100,null=False, verbose_name='Apellidos',validators=[validar_caracter,MinLengthValidator(5, message="El campo debe contener minimo 5 caracteres")])
     email=models.EmailField(max_length=100,null=False,unique=True,verbose_name='Correo electrónico',validators=[EmailValidator(message="Correo electrónico inválido")])
     documento=models.IntegerField(unique=True, null=False,verbose_name='Número de documento',validators=[validar_documento])
     tipo_doc=models.CharField(choices=TIPO_DOC,max_length=2, verbose_name='Tipo de documento')
@@ -85,17 +84,17 @@ class Usuario(AbstractUser):
     tipo_sangre=models.CharField(max_length=3,null=False,choices=TIPO_SANGRE, verbose_name='Tipo de sangre')
     fecha_nacimiento=models.DateField(null=False, verbose_name='Fecha de nacimiento',validators=[MaxValueValidator(datetime.date.today)])
     telefono=models.CharField(max_length=10,null=False, verbose_name='Número de telefono', validators=[validar_telefono],unique=True)
-    ciudad=models.CharField(max_length=100, null=False,verbose_name='Ciudad de residencia',validators=[validar_nombre])
+    ciudad=models.CharField(max_length=100, null=False,verbose_name='Ciudad de residencia',validators=[validar_caracter])
     direccion=models.CharField(max_length=100,null=False, verbose_name='Dirección de residencia')
     eps=models.CharField(max_length=100,blank=True, verbose_name='EPS')
     tipo_poblacion=models.CharField(max_length=100,null=False,choices=TIPO_POBLACION, verbose_name='Tipo de población')
-    estado_civil=models.CharField(max_length=20,null=False,choices=ESTADO_CIVIL, verbose_name='Estado civil       ')
+    estado_civil=models.CharField(max_length=20,null=False,choices=ESTADO_CIVIL, verbose_name='Estado civil')
     tipo_regimen=models.CharField(max_length=20,null=False,choices=TIPO_REGIMEN, verbose_name='Tipo de regimen')
     estrato_social=models.CharField(max_length=20,null=False, choices=ESTRATO_SOCIAL, verbose_name='Estrato social')
     imagen=models.ImageField(upload_to=user_directory_path,blank=True, null=True, verbose_name='Imagen de Usuario',validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png'])]) #IMAGEEEEEEEEEEEEN
-    password=models.CharField(max_length=100, null=False, verbose_name='Contraseña', validators=[validar_password])
+    password=models.CharField(max_length=100, null=False, verbose_name='Contraseña')#, validators=[validar_password])
     #arl 
-    
+
     @property 
     def medico(self):
         return isinstance(self,Medico)

@@ -49,6 +49,7 @@ urlpatterns = [
     path('medico/actualizar/<int:id>/', actualizar_medico, name='actualizar_medico'),
     path('medico/eliminar/<int:id>/',eliminar_medico,name='eliminar_medico'),
     path('medico/ver-perfil/', ver_perfil_medico, name='perfil_medico'),
+    path('medico-filtrar/listar/',listar_pacientes_filtrados,name='listar_pacientes_filtrados'),
     #Urls de Aux Admin
     path('aux_admin/insertar/',crear_aux_admin, name='crear_aux_admin'),
     path('aux_admin/listar/',listar_aux_admin,name='listar_aux_admin'),
